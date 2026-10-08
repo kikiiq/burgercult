@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Burger Cult</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap" rel="stylesheet">
+<style>
+:root{--black:#050404;--panel:#150b0c;--red:#c1121f;--red-hi:#ff4d5a;--cream:#f3e9d2;--muted:#b9ad94;
+--display:"Pirata One",Georgia,serif;--body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 5rem)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--black);color:var(--cream);font-family:var(--body);line-height:1.6}
+:focus-visible{outline:3px solid var(--red-hi);outline-offset:3px}
+
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem 1.5rem;padding:.6rem 1.25rem;background:var(--black);border-bottom:2px solid var(--red)}
+.logo{display:flex;align-items:center;gap:.5rem;font-family:var(--display);font-size:1.9rem;color:var(--cream);text-decoration:none}
+.logo svg{width:1.7rem;height:1.7rem}
+nav{display:flex;flex-wrap:wrap;align-items:center;gap:.25rem 1.25rem}
+nav a{color:var(--cream);text-decoration:none;padding:.5rem 0}
+nav a:hover{color:var(--red-hi)}
+.lang{font:inherit;font-weight:700;color:var(--cream);background:none;border:2px solid var(--red);border-radius:999px;padding:.35rem 1rem;min-height:44px;cursor:pointer}
+.lang:hover{background:var(--red)}
+
+.hero{display:grid;gap:2.5rem;align-items:center;padding:3.5rem max(1.25rem,calc((100% - 70rem) / 2));background:radial-gradient(ellipse at 35% 0%,rgba(193,18,31,.35),transparent 60%)}
+@media(min-width:800px){.hero{grid-template-columns:1.2fr 1fr}}
+h1{margin:0 0 1rem;font-family:var(--display);font-weight:400;font-size:clamp(3rem,10vw,6rem);line-height:1}
+.lead{max-width:30rem;margin:0 0 2rem;color:var(--muted);font-size:1.1rem}
+.btns{display:flex;flex-wrap:wrap;gap:1rem}
+.btn{display:inline-block;min-height:44px;padding:.8rem 1.6rem;border:2px solid var(--red);border-radius:.4rem;font-weight:700;color:var(--cream);text-decoration:none}
+.btn.main{background:var(--red)}
+.btn.main:hover{background:#e0212f}
+.btn.ghost:hover{background:rgba(193,18,31,.3)}
+
+.status{padding:1.5rem;background:var(--panel);border:2px solid var(--red);border-radius:1rem}
+.badge{display:flex;align-items:center;gap:.6rem;font-weight:700}
+.dot{width:.7rem;height:.7rem;border-radius:50%;background:#6b6b6b}
+.status.open .dot{background:#3ddc84;animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.3}}
+.hearts{display:flex;flex-wrap:wrap;gap:.3rem;margin:1.2rem 0 .6rem}
+.hearts svg{width:2rem;height:2rem;fill:none;stroke:var(--red);stroke-width:2}
+.hearts svg.on{fill:var(--red)}
+.count{font-family:var(--display);font-size:2.4rem;line-height:1}
+.wait{margin:.4rem 0 0;color:var(--red-hi);font-weight:700}
+.demo{margin:1rem 0 0;font-size:.8rem;color:var(--muted)}
+.menu{max-width:46rem;margin:0 auto;padding:3rem 1.25rem 4rem}
+h2{margin:0 0 1.5rem;font-family:var(--display);font-weight:400;font-size:clamp(2.2rem,6vw,3.2rem)}
+.tabs{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:1.5rem}
+.tab{font:inherit;font-weight:700;color:var(--cream);background:none;border:2px solid var(--red);border-radius:999px;padding:.4rem 1.2rem;min-height:44px;cursor:pointer}
+.tab:hover{background:rgba(193,18,31,.3)}
+.tab[aria-selected="true"]{background:var(--red)}
+.items{list-style:none;margin:0;padding:0}
+.items li{padding:1rem 0;border-bottom:1px dashed #5a2226}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:1rem}
+.name{font-family:var(--display);font-size:1.6rem}
+.price{font-weight:700;color:var(--red-hi);white-space:nowrap}
+.items p{max-width:34rem;margin:.2rem 0 0;color:var(--muted)}
+.builder{display:grid;gap:2rem;max-width:70rem;margin:0 auto;padding:3rem 1.25rem 4rem}
+@media(min-width:800px){.builder{grid-template-columns:1fr 1fr;align-items:start}.builder h2{grid-column:1/-1;margin:0}}
+.stage{padding:1rem;text-align:center;background:var(--panel);border:2px solid var(--red);border-radius:1rem}
+.stage svg{width:100%;max-width:20rem;height:auto}
+.layer{animation:drop .35s ease-out}
+@keyframes drop{from{transform:translateY(-30px);opacity:0}}
+button.btn{font:inherit;font-weight:700;cursor:pointer}
+fieldset{margin:0 0 1.2rem;padding:0;border:0}
+legend{margin-bottom:.4rem;padding:0;font-family:var(--display);font-size:1.5rem}
+.opts{display:flex;flex-wrap:wrap;gap:.5rem}
+.opt{display:inline-flex;align-items:center;gap:.4rem;min-height:44px;padding:.3rem .9rem;border:2px solid var(--red);border-radius:999px;cursor:pointer}
+.opt:has(input:checked){background:var(--red)}
+.opt input{accent-color:var(--cream)}
+.total{font-family:var(--display);font-size:2.2rem}
+.ach{min-height:1.6rem;margin:0 0 1rem;color:var(--red-hi);font-weight:700}
+@media(prefers-reduced-motion:reduce){.layer{animation:none}}
+.about,.find{max-width:46rem;margin:0 auto;padding:3rem 1.25rem}
+.about p{max-width:38rem}
+.hint{font-size:.9rem;color:var(--muted)}
+.find{display:grid;gap:2rem;max-width:70rem}
+@media(min-width:800px){.find{grid-template-columns:1fr 1fr;align-items:start}.find h2{grid-column:1/-1;margin:0}}
+dl{margin:0 0 1.5rem}
+dt{font-family:var(--display);font-size:1.4rem;color:var(--red-hi)}
+dd{margin:0 0 1rem}
+dd a{color:var(--cream)}
+.map{padding:.5rem;background:var(--panel);border:2px solid var(--red);border-radius:1rem}
+.map svg{display:block;width:100%;height:auto}
+footer{padding:2rem 1.25rem 3rem;border-top:2px solid var(--red);text-align:center;color:var(--muted)}
+.social{display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem;margin:0 0 1rem;padding:0;list-style:none}
+.social a{display:inline-flex;align-items:center;min-height:44px;padding:.3rem 1.1rem;border:2px solid var(--red);border-radius:999px;color:var(--cream);font-weight:700;text-decoration:none}
+.social a:hover{background:var(--red)}
+@media(prefers-reduced-motion:reduce){.dot{animation:none}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="logo" href="#">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="none" stroke="#ff4d5a" stroke-width="1.5"/><path d="M12 5c1 3 4 4 4 8a4 4 0 0 1-8 0c0-2 1-3 2-4 0 2 1 2 2 1 0-2-1-3 0-5z" fill="#c1121f"/></svg>
+    Burger Cult
+  </a>
+  <nav>
+    <a href="#menu" data-i18n="nav_menu"></a>
+    <a href="#builder" data-i18n="nav_builder"></a>
+    <a href="#about" data-i18n="nav_about"></a>
+    <a href="#find" data-i18n="nav_find"></a>
+    <button class="lang" id="lang" type="button" aria-label="Zmień język / Change language">EN</button>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div>
+      <h1><span data-i18n="h1a"></span> <span data-i18n="h1b"></span></h1>
+      <p class="lead" data-i18n="lead"></p>
+      <div class="btns">
+        <a class="btn main" href="#builder" data-i18n="cta1"></a>
+        <a class="btn ghost" href="#menu" data-i18n="cta2"></a>
+      </div>
+    </div>
+
+    <div class="status" id="status">
+      <div class="badge"><span class="dot"></span><span id="st-open"></span></div>
+      <div class="hearts" id="hearts"></div>
+      <div class="count"><span id="st-count"></span> <small data-i18n="tables"></small></div>
+      <p class="wait" id="st-wait"></p>
+      <p class="demo" data-i18n="demo"></p>
+    </div>
+  </section>
+
+  <section class="menu" id="menu">
+    <h2 data-i18n="menu_h"></h2>
+    <p class="ach" id="toast" role="status"></p>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" data-cat="burgers" data-i18n="cat_burgers" aria-selected="true"></button>
+      <button class="tab" role="tab" data-cat="sides" data-i18n="cat_sides" aria-selected="false"></button>
+      <button class="tab" role="tab" data-cat="drinks" data-i18n="cat_drinks" aria-selected="false"></button>
+      <button class="tab" role="tab" data-cat="sets" data-i18n="cat_sets" aria-selected="false"></button>
+      <button class="tab" role="tab" data-cat="secret" data-i18n="cat_secret" aria-selected="false" hidden></button>
+    </div>
+    <ul class="items" id="menu-list" role="tabpanel"></ul>
+  </section>
+
+  <section class="builder" id="builder">
+    <h2 data-i18n="builder_h"></h2>
+    <div class="stage">
+      <svg id="burger" viewBox="0 0 240 260" role="img" aria-label="Burger"></svg>
+      <p><span data-i18n="b_total"></span> <span class="total" id="b-total"></span></p>
+      <p class="ach" id="b-ach" role="status"></p>
+      <button class="btn main" id="b-roll" type="button" data-i18n="b_roll"></button>
+    </div>
+    <div id="b-controls"></div>
+  </section>
+
+  <section class="about" id="about">
+    <h2 data-i18n="about_h"></h2>
+    <p data-i18n="about_p1"></p>
+    <p data-i18n="about_p2"></p>
+    <p class="hint" data-i18n="hint"></p>
+  </section>
+
+  <section class="find" id="find">
+    <h2 data-i18n="find_h"></h2>
+    <div>
+      <dl>
+        <dt data-i18n="lab_addr"></dt><dd>ul. Gdańska 6/66, Bydgoszcz</dd>
+        <dt data-i18n="lab_hours"></dt><dd data-i18n="hours"></dd>
+        <dt data-i18n="lab_phone"></dt><dd><a href="tel:+48666666666">666 666 666</a></dd>
+        <dt data-i18n="lab_mail"></dt><dd><a href="mailto:burger@cult.pl">burger@cult.pl</a></dd>
+      </dl>
+      <a class="btn main" target="_blank" rel="noopener noreferrer" href="https://www.google.com/maps/search/?api=1&query=Gda%C5%84ska+6%2C+Bydgoszcz" data-i18n="map_btn"></a>
+    </div>
+    <div class="map">
+      <svg viewBox="0 0 400 300" role="img" aria-label="Map / Mapa">
+        <rect width="400" height="300" fill="#0f0809"/>
+        <path d="M-10 220 C80 160 140 260 230 200 S360 120 410 150" fill="none" stroke="#3a1518" stroke-width="22"/>
+        <g stroke="#5a2226" stroke-width="5" fill="none"><path d="M0 250 H400"/><path d="M110 0 V300"/><path d="M300 0 V300"/><path d="M0 170 L400 40"/></g>
+        <path d="M30 60 L370 130" stroke="#f3e9d2" stroke-width="7" fill="none"/>
+        <text x="40" y="48" fill="#b9ad94" font-size="13" font-family="system-ui,sans-serif">ul. Gdańska</text>
+        <circle cx="230" cy="101" r="13" fill="#c1121f" stroke="#f3e9d2" stroke-width="3"/>
+        <circle cx="230" cy="101" r="4" fill="#f3e9d2"/>
+        <text x="250" y="90" fill="#f3e9d2" font-size="20" font-family="'Pirata One',Georgia,serif">Burger Cult</text>
+      </svg>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <ul class="social">
+    <li><a href="#" aria-label="Instagram">Instagram</a></li>
+    <li><a href="#" aria-label="Facebook">Facebook</a></li>
+    <li><a href="#" aria-label="TikTok">TikTok</a></li>
+  </ul>
+  <p data-i18n="foot"></p>
+</footer>
+
+<script>
+const OPEN = 12, CLOSE = 22;
+
+const T = {
+  pl: {
+    nav_menu: "Menu", nav_builder: "Kreator", nav_about: "O nas", nav_find: "Znajdź nas",
+    h1a: "Wstąp do", h1b: "kultu burgera.",
+    lead: "Soczyste burgery w mrocznym klimacie. ul. Gdańska 6/66, Bydgoszcz.",
+    cta1: "Zbuduj burgera", cta2: "Zobacz menu",
+    tables: "stolików zajętych", demo: "Dane demonstracyjne.",
+    menu_h: "Menu", cat_burgers: "Burgery", cat_sides: "Dodatki", cat_drinks: "Napoje", cat_sets: "Zestawy",
+    builder_h: "Zbuduj swojego burgera", b_patty: "Mięso", b_cheese: "Ser", b_top: "Dodatki", b_sauce: "Sos", b_total: "Cena:", b_roll: "Rzuć kostką", b_ach: "Osiągnięcie odblokowane: Pełny Rytuał (5+ dodatków)",
+    about_h: "Nasz kult",
+    about_p1: "Burger Cult narodził się z jednej obsesji: idealnego burgera. Wołowina mielona na miejscu, bułki z porannego wypieku, sosy robione od zera. Mrok zostawiamy w wystroju, bo na talerzu ma być jasno i smacznie.",
+    about_p2: "Nie musisz być graczem ani wyznawcą, wystarczy głód. A jeśli lubisz sekrety, masz podpowiedź poniżej.",
+    hint: "Podpowiedź: kod, który zna każdy gracz, to ↑ ↑ ↓ ↓ ← → ← → B A. Na telefonie dotknij logo pięć razy.",
+    find_h: "Znajdź nas", lab_addr: "Adres", lab_hours: "Godziny", lab_phone: "Telefon", lab_mail: "E-mail",
+    hours: `Codziennie ${OPEN}:00–${CLOSE}:00`, map_btn: "Otwórz w Mapach",
+    cat_secret: "Tajne", toast: "Odblokowano sekret: tajne menu!",
+    foot: "© 2026 Burger Cult. Fikcyjna restauracja, projekt edukacyjny.",
+    open: h => `Otwarte do ${h}`, closed: `Zamknięte, otwieramy o ${OPEN}:00`,
+    nowait: "Stolik czeka. Bez kolejki.",
+    wait: (a, b) => `Czas oczekiwania: ${a}–${b} min`
+  },
+  en: {
+    nav_menu: "Menu", nav_builder: "Builder", nav_about: "About", nav_find: "Find us",
+    h1a: "Join the", h1b: "cult of the burger.",
+    lead: "Juicy burgers with a dark soul. 6/66 Gdańska St., Bydgoszcz.",
+    cta1: "Build your burger", cta2: "See the menu",
+    tables: "tables taken", demo: "Demo data.",
+    menu_h: "Menu", cat_burgers: "Burgers", cat_sides: "Sides", cat_drinks: "Drinks", cat_sets: "Sets",
+    builder_h: "Build your own burger", b_patty: "Patty", b_cheese: "Cheese", b_top: "Toppings", b_sauce: "Sauce", b_total: "Price:", b_roll: "Roll the dice", b_ach: "Achievement unlocked: Full Ritual (5+ toppings)",
+    about_h: "Our cult",
+    about_p1: "Burger Cult was born from one obsession: the perfect burger. Beef ground on site, buns baked each morning, sauces made from scratch. We keep the darkness in the decor, because the plate should be bright and delicious.",
+    about_p2: "You don't have to be a gamer or a believer, just hungry. And if you like secrets, there's a hint below.",
+    hint: "Hint: the code every gamer knows is ↑ ↑ ↓ ↓ ← → ← → B A. On a phone, tap the logo five times.",
+    find_h: "Find us", lab_addr: "Address", lab_hours: "Hours", lab_phone: "Phone", lab_mail: "E-mail",
+    hours: `Daily ${OPEN}:00–${CLOSE}:00`, map_btn: "Open in Maps",
+    cat_secret: "Secret", toast: "Secret unlocked: hidden menu!",
+    foot: "© 2026 Burger Cult. A fictional restaurant, educational project.",
+    open: h => `Open until ${h}`, closed: `Closed, opening at ${OPEN}:00`,
+    nowait: "A table is waiting. No queue.",
+    wait: (a, b) => `Estimated wait: ${a}–${b} min`
+  }
+};
+
+const $ = id => document.getElementById(id);
+let lang = "pl", occupied = 0;
+
+for (let i = 0; i < 10; i++) {
+  $("hearts").insertAdjacentHTML("beforeend",
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z"/></svg>');
+}
+
+function hourInWarsaw() {
+  const h = new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/Warsaw", hour: "numeric", hour12: false }).format(new Date());
+  return parseInt(h, 10) % 24;
+}
+
+function typicalOccupancy(h) {
+  const bump = (c, w) => Math.exp(-((h - c) ** 2) / (2 * w * w));
+  return Math.round(25 + 70 * Math.max(bump(13, 1.5), bump(19, 2)));
+}
+
+function waitRange(n) {
+  const p = n / 100;
+  if (p < 0.7) return null;
+  const low = Math.round(5 + ((p - 0.7) / 0.3) * 10);
+  return [low, low + 10];
+}
+
+function render() {
+  const t = T[lang], h = hourInWarsaw(), isOpen = h >= OPEN && h < CLOSE;
+  $("status").classList.toggle("open", isOpen);
+  $("st-open").textContent = isOpen ? t.open(CLOSE + ":00") : t.closed;
+  $("st-count").textContent = isOpen ? `${occupied}/100` : "–";
+  const filled = isOpen ? Math.round(occupied / 10) : 0;
+  $("hearts").querySelectorAll("svg").forEach((s, i) => s.classList.toggle("on", i < filled));
+  const w = isOpen ? waitRange(occupied) : null;
+  $("st-wait").textContent = !isOpen ? "" : w ? t.wait(w[0], w[1]) : t.nowait;
+}
+
+function tick() {
+  const noise = Math.floor(Math.random() * 7) - 3;
+  occupied = Math.max(0, Math.min(100, typicalOccupancy(hourInWarsaw()) + noise));
+  render();
+}
+
+const MENU = {
+  burgers: [
+    { p: 29.9, pl: ["The Initiate", "Wołowina, cheddar, sałata, pomidor, ogórek, sos firmowy."], en: ["The Initiate", "Beef, cheddar, lettuce, tomato, pickle, house sauce."] },
+    { p: 33.9, pl: ["The Prophet", "Wołowina, bekon, krążki cebulowe, cheddar, sos BBQ."], en: ["The Prophet", "Beef, bacon, onion rings, cheddar, BBQ sauce."] },
+    { p: 32.9, pl: ["The Heretic", "Wołowina, jalapeño, pepper jack, ostry sos chili."], en: ["The Heretic", "Beef, jalapeño, pepper jack, hot chili sauce."] },
+    { p: 28.9, pl: ["The Saint", "Grillowane halloumi, rukola, czerwona cebula, sos remoulade. Wegetariański."], en: ["The Saint", "Grilled halloumi, arugula, red onion, remoulade. Vegetarian."] }
+  ],
+  sides: [
+    { p: 12.9, pl: ["Frytki ofiarne", "Chrupiące, solone, z sosem do wyboru."], en: ["Offering fries", "Crispy, salted, with a dip of your choice."] },
+    { p: 15.9, pl: ["Krążki cebulowe", "Panierowane, z sosem BBQ."], en: ["Onion rings", "Breaded, with BBQ sauce."] },
+    { p: 13.9, pl: ["Coleslaw", "Kapusta, marchew, lekki dressing."], en: ["Coleslaw", "Cabbage, carrot, light dressing."] }
+  ],
+  drinks: [
+    { p: 9.9, pl: ["Lemoniada krwista", "Malina, cytryna, mięta."], en: ["Blood lemonade", "Raspberry, lemon, mint."] },
+    { p: 8.9, pl: ["Cola", "0,33 l."], en: ["Cola", "0.33 l."] },
+    { p: 9.9, pl: ["Mrożona herbata", "Brzoskwiniowa, domowa."], en: ["Iced tea", "Homemade peach."] }
+  ],
+  sets: [
+    { p: 39.9, pl: ["Zestaw Nowicjusza", "Dowolny burger, frytki i napój."], en: ["Novice set", "Any burger, fries and a drink."] },
+    { p: 69.9, pl: ["Zestaw na dwoje", "Dwa burgery, duże frytki, krążki cebulowe i dwa napoje."], en: ["Set for two", "Two burgers, large fries, onion rings and two drinks."] }
+  ]
+};
+let cat = "burgers";
+
+function renderMenu() {
+  const list = $("menu-list");
+  list.replaceChildren();
+  const money = new Intl.NumberFormat(lang === "pl" ? "pl-PL" : "en-GB", { style: "currency", currency: "PLN" });
+  MENU[cat].forEach(item => {
+    const [name, desc] = item[lang];
+    const li = document.createElement("li");
+    const row = document.createElement("div");
+    row.className = "row";
+    const n = document.createElement("span");
+    n.className = "name";
+    n.textContent = name;
+    const pr = document.createElement("span");
+    pr.className = "price";
+    pr.textContent = money.format(item.p);
+    row.append(n, pr);
+    const d = document.createElement("p");
+    d.textContent = desc;
+    li.append(row, d);
+    list.append(li);
+  });
+  document.querySelectorAll(".tab").forEach(b => b.setAttribute("aria-selected", String(b.dataset.cat === cat)));
+}
+
+document.querySelectorAll(".tab").forEach(b => b.addEventListener("click", () => { cat = b.dataset.cat; renderMenu(); }));
+
+const OPT = {
+  patty: [
+    { id: "beef", c: "#6b3a1f", p: 8, pl: "Wołowina", en: "Beef" },
+    { id: "chicken", c: "#c98a45", p: 7, pl: "Kurczak", en: "Chicken" },
+    { id: "veggie", c: "#6f7f3a", p: 7, pl: "Wegetariański", en: "Veggie" }
+  ],
+  cheese: [
+    { id: "none", p: 0, pl: "Bez sera", en: "No cheese" },
+    { id: "cheddar", c: "#f2a900", p: 2, pl: "Cheddar", en: "Cheddar" },
+    { id: "jack", c: "#f6e7a1", p: 2.5, pl: "Pepper jack", en: "Pepper jack" }
+  ],
+  top: [
+    { id: "lettuce", c: "#5aa02c", h: 10, w: 224, p: 1, pl: "Sałata", en: "Lettuce" },
+    { id: "tomato", c: "#d62828", h: 9, w: 196, p: 1.5, pl: "Pomidor", en: "Tomato" },
+    { id: "onion", c: "#eadbc8", h: 6, w: 190, p: 1, pl: "Cebula", en: "Onion" },
+    { id: "pickle", c: "#4f7a28", h: 7, w: 176, p: 1, pl: "Ogórek", en: "Pickles" },
+    { id: "jalapeno", c: "#2f7d32", h: 7, w: 170, p: 1.5, pl: "Jalapeño", en: "Jalapeño" },
+    { id: "bacon", c: "#8c2f2f", h: 8, w: 214, p: 4, pl: "Bekon", en: "Bacon" },
+    { id: "rings", c: "#d9a441", h: 14, w: 188, p: 3, pl: "Krążki cebulowe", en: "Onion rings" }
+  ],
+  sauce: [
+    { id: "house", c: "#e07a1f", p: 0, pl: "Sos firmowy", en: "House sauce" },
+    { id: "bbq", c: "#4a2412", p: 0, pl: "BBQ", en: "BBQ" },
+    { id: "chili", c: "#b3121b", p: 0, pl: "Chili", en: "Chili" }
+  ]
+};
+const B = { patty: "beef", cheese: "cheddar", sauce: "house", top: new Set(["lettuce", "tomato"]) };
+const NS = "http://www.w3.org/2000/svg";
+let prevLayers = new Set(), unlocked = false;
+
+const pick = (list, id) => list.find(o => o.id === id);
+
+function svgEl(tag, attrs, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  parent.append(e);
+  return e;
+}
+
+function drawBurger() {
+  const svg = $("burger");
+  svg.replaceChildren();
+  svgEl("ellipse", { cx: 120, cy: 252, rx: 105, ry: 8, fill: "#f3e9d2" }, svg);
+  const now = new Set();
+  let y = 244;
+  const add = (id, h, w, fill, rx) => {
+    y -= h;
+    const g = svgEl("g", {}, svg);
+    if (!prevLayers.has(id)) g.setAttribute("class", "layer");
+    now.add(id);
+    svgEl("rect", { x: 120 - w / 2, y, width: w, height: h, rx, fill }, g);
+  };
+  add("bun-b", 24, 212, "#d9a05b", 10);
+  const patty = pick(OPT.patty, B.patty);
+  add("patty-" + patty.id, 28, 204, patty.c, 12);
+  const cheese = pick(OPT.cheese, B.cheese);
+  if (cheese.c) add("cheese-" + cheese.id, 8, 218, cheese.c, 3);
+  OPT.top.filter(t => B.top.has(t.id)).forEach(t => add("top-" + t.id, t.h, t.w, t.c, 6));
+  const sauce = pick(OPT.sauce, B.sauce);
+  add("sauce-" + sauce.id, 6, 196, sauce.c, 3);
+  const g = svgEl("g", {}, svg);
+  if (!prevLayers.has("bun-t")) g.setAttribute("class", "layer");
+  now.add("bun-t");
+  svgEl("path", { d: `M16 ${y} Q16 ${y - 56} 120 ${y - 56} Q224 ${y - 56} 224 ${y} Z`, fill: "#e0a860" }, g);
+  [[80, -38], [120, -46], [160, -38], [100, -26], [140, -26]].forEach(([dx, dy]) =>
+    svgEl("ellipse", { cx: dx, cy: y + dy, rx: 5, ry: 2.5, fill: "#f3e9d2" }, g));
+  prevLayers = now;
+}
+
+function burgerPrice() {
+  let t = 19.9 + pick(OPT.patty, B.patty).p + pick(OPT.cheese, B.cheese).p;
+  OPT.top.forEach(o => { if (B.top.has(o.id)) t += o.p; });
+  return t;
+}
+
+function updateBuilder() {
+  drawBurger();
+  const money = new Intl.NumberFormat(lang === "pl" ? "pl-PL" : "en-GB", { style: "currency", currency: "PLN" });
+  $("b-total").textContent = money.format(burgerPrice());
+  if (B.top.size >= 5) unlocked = true;
+  $("b-ach").textContent = unlocked ? T[lang].b_ach : "";
+}
+
+function optionGroup(key, list, type, legendKey) {
+  const fs = document.createElement("fieldset");
+  const lg = document.createElement("legend");
+  lg.textContent = T[lang][legendKey];
+  const box = document.createElement("div");
+  box.className = "opts";
+  list.forEach(o => {
+    const label = document.createElement("label");
+    label.className = "opt";
+    const input = document.createElement("input");
+    input.type = type;
+    input.name = key;
+    input.value = o.id;
+    input.checked = type === "radio" ? B[key] === o.id : B.top.has(o.id);
+    input.addEventListener("change", () => {
+      if (type === "radio") B[key] = o.id;
+      else if (input.checked) B.top.add(o.id);
+      else B.top.delete(o.id);
+      updateBuilder();
+    });
+    label.append(input, document.createTextNode(" " + o[lang]));
+    box.append(label);
+  });
+  fs.append(lg, box);
+  return fs;
+}
+
+function renderBuilder() {
+  $("b-controls").replaceChildren(
+    optionGroup("patty", OPT.patty, "radio", "b_patty"),
+    optionGroup("cheese", OPT.cheese, "radio", "b_cheese"),
+    optionGroup("top", OPT.top, "checkbox", "b_top"),
+    optionGroup("sauce", OPT.sauce, "radio", "b_sauce")
+  );
+  updateBuilder();
+}
+
+$("b-roll").addEventListener("click", () => {
+  const rnd = list => list[Math.floor(Math.random() * list.length)].id;
+  B.patty = rnd(OPT.patty);
+  B.cheese = rnd(OPT.cheese);
+  B.sauce = rnd(OPT.sauce);
+  B.top = new Set(OPT.top.filter(() => Math.random() < 0.5).map(o => o.id));
+  renderBuilder();
+});
+
+MENU.secret = [
+  { p: 44.9, pl: ["The Forbidden", "Podwójna wołowina, bekon, jalapeño, cheddar, pepper jack, sos chili. Nie dla słabych."], en: ["The Forbidden", "Double beef, bacon, jalapeño, cheddar, pepper jack, chili sauce. Not for the weak."] },
+  { p: 79.9, pl: ["Boss Fight", "Burger 1 kg z frytkami. Zjesz w 15 minut, a jest za darmo."], en: ["Boss Fight", "1 kg burger with fries. Finish it in 15 minutes and it's free."] }
+];
+
+const KONAMI = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
+let konamiPos = 0, logoTaps = 0;
+
+function unlockSecret() {
+  document.querySelector('.tab[data-cat="secret"]').hidden = false;
+  cat = "secret";
+  renderMenu();
+  $("toast").textContent = T[lang].toast;
+  $("menu").scrollIntoView({ behavior: "smooth" });
+}
+
+document.addEventListener("keydown", e => {
+  const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+  konamiPos = k === KONAMI[konamiPos] ? konamiPos + 1 : (k === KONAMI[0] ? 1 : 0);
+  if (konamiPos === KONAMI.length) { konamiPos = 0; unlockSecret(); }
+});
+
+document.querySelector(".logo").addEventListener("click", () => {
+  if (++logoTaps >= 5) { logoTaps = 0; unlockSecret(); }
+});
+
+function setLang(l) {
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = T[l][el.dataset.i18n]; });
+  $("lang").textContent = l === "pl" ? "EN" : "PL";
+  try { localStorage.setItem("lang", l); } catch (e) {}
+  render();
+  renderMenu();
+  renderBuilder();
+}
+
+$("lang").addEventListener("click", () => setLang(lang === "pl" ? "en" : "pl"));
+
+let saved = null;
+try { saved = localStorage.getItem("lang"); } catch (e) {}
+tick();
+setLang(saved === "en" || saved === "pl" ? saved : (navigator.language || "pl").startsWith("pl") ? "pl" : "en");
+setInterval(tick, 8000);
+</script>
+</body>
+</html>
